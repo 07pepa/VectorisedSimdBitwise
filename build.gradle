@@ -1,0 +1,39 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+apply plugin: 'groovy'
+applicationName = 'javalib'
+
+group 'cz.havranek.opensource.SIMD'
+version '1.0'
+
+application {
+    mainClassName = 'cz.havranek.opensource.SIMD.ByteBufferProcesors.Bitwise.Main'
+}
+
+jar {
+    manifest {
+        attributes 'Implementation-Title': 'uppercase',
+                'Implementation-Version': version,
+                'Main-Class': 'cz.havranek.opensource.SIMD.ByteBufferProcesors.Bitwise.Main'
+    }
+    from sourceSets.main.output
+
+    dependsOn configurations.runtimeClasspath
+    from {
+        configurations.runtimeClasspath.findAll { it.name.endsWith('jar') }.collect { zipTree(it) }
+    }
+}
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+
+dependencies {
+    testCompile "org.codehaus.groovy:groovy-all:2.5.7"
+    testCompile "org.spockframework:spock-core:1.3-groovy-2.5"
+}
